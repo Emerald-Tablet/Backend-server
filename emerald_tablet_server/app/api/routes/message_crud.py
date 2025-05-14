@@ -1,0 +1,47 @@
+import json
+from fastapi import APIRouter, HTTPException
+
+
+
+router = APIRouter()
+
+'''
+@router.post(
+    "/create",
+    response_model=MachineLearningResponse,
+    name="create:message",
+)
+async def predict(data_input: MachineLearningDataInput):
+    if not data_input:
+        raise HTTPException(status_code=404, detail="'data_input' argument invalid!")
+    try:
+        data_point = data_input.get_np_array()
+        prediction = get_prediction(data_point)
+        prediction_label = get_prediction_label(prediction)
+
+    except Exception as err:
+        raise HTTPException(status_code=500, detail=f"Exception: {err}")
+
+    return MachineLearningResponse(
+        prediction=prediction, prediction_label=prediction_label
+    )
+
+
+@router.get(
+    "/health",
+    response_model=HealthResponse,
+    name="health:get-data",
+)
+async def health():
+    is_health = False
+    try:
+        test_input = MachineLearningDataInput(
+            **json.loads(open(INPUT_EXAMPLE, "r").read())
+        )
+        test_point = test_input.get_np_array()
+        get_prediction(test_point)
+        is_health = True
+        return HealthResponse(status=is_health)
+    except Exception:
+        raise HTTPException(status_code=404, detail="Unhealthy")
+'''
