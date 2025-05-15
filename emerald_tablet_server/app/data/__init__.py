@@ -2,6 +2,11 @@ from enum import Enum
 from pydantic import BaseModel,field_validator
 from typing import List
 from fastapi import  Field
+from services.utils import generate_uuid
+
+class BasicResponse(BaseModel):
+    success: bool 
+    message: str
 
 class DataType(str,Enum):
     MEMO = "memo"
@@ -41,6 +46,7 @@ class MetaInfo(BaseModel):
     tag:List[Tag] = Field(None,description="테그")
     author: str = Field(...,description="작성자")
     grade: Grade = Field(...,description="신뢰 등급")
+    id: str = Field(...,default_factory=generate_uuid())
     
 class Restriction(BaseModel):
     visiable: str = Field(None, description="메시지를 볼수 있는 대상 지정")

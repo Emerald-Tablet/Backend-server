@@ -1,47 +1,55 @@
-import json
-from fastapi import APIRouter, HTTPException
-
-
+from fastapi import APIRouter, HTTPException, Body
+from data import BasicResponse
+from data.message import Message
+from typing import Annotated
 
 router = APIRouter()
 
-'''
 @router.post(
     "/create",
-    response_model=MachineLearningResponse,
-    name="create:message",
+    response_model=BasicResponse,
+    status_code=200,
+    name="create:message"
 )
-async def predict(data_input: MachineLearningDataInput):
-    if not data_input:
-        raise HTTPException(status_code=404, detail="'data_input' argument invalid!")
+async def create_message(message:Annotated[Message,Body()]):
+    if not message:
+            raise HTTPException(status_code=404, detail="'message' argument invalid!")
     try:
-        data_point = data_input.get_np_array()
-        prediction = get_prediction(data_point)
-        prediction_label = get_prediction_label(prediction)
-
+        pass
     except Exception as err:
         raise HTTPException(status_code=500, detail=f"Exception: {err}")
 
-    return MachineLearningResponse(
-        prediction=prediction, prediction_label=prediction_label
-    )
+    return BasicResponse(success=True,message="message create success")
 
 
-@router.get(
-    "/health",
-    response_model=HealthResponse,
-    name="health:get-data",
+@router.update(
+    "/update",
+    response_model=BasicResponse,
+    status_code=200,
+    name="update:message"
 )
-async def health():
-    is_health = False
+async def update_message(message:Annotated[Message,Body()]):
+    if not message:
+            raise HTTPException(status_code=404, detail="'message' argument invalid!")
     try:
-        test_input = MachineLearningDataInput(
-            **json.loads(open(INPUT_EXAMPLE, "r").read())
-        )
-        test_point = test_input.get_np_array()
-        get_prediction(test_point)
-        is_health = True
-        return HealthResponse(status=is_health)
-    except Exception:
-        raise HTTPException(status_code=404, detail="Unhealthy")
-'''
+        pass
+    except Exception as err:
+        raise HTTPException(status_code=500, detail=f"Exception: {err}")
+
+    return BasicResponse(success=True,message="message update success")
+
+@router.delete(
+    "/delete",
+    response_model=BasicResponse,
+    status_code=200,
+    name="delete:message"
+)
+async def delete_message(message_id:Annotated[str,Body()]):
+    if not message_id:
+            raise HTTPException(status_code=404, detail="'message' argument invalid!")
+    try:
+        pass
+    except Exception as err:
+        raise HTTPException(status_code=500, detail=f"Exception: {err}")
+
+    return BasicResponse(success=True,message=f"{message_id} delete success")
